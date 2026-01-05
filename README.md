@@ -22,12 +22,13 @@ ZMP app created with following options:
   "customBuild": false
 }
 ```
+## Install
 
-`npm install`
+* `npm install`
 
-run UI
+## Run UI
 
-`npx vite`
+* `npx vite`
 
 ## NPM Scripts
 
