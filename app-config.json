@@ -1,0 +1,13 @@
+{
+  "app": {
+    "title": "ZMP Blog",
+    "headerColor": "",
+    "textColor": "black",
+    "leftButton": "back"
+  },
+  "debug": false,
+  "listCSS": [],
+  "listSyncJS": [],
+  "listAsyncJS": [],
+  "pages": ["/blogs", "/article","/menu","/search","/detail"]
+}
