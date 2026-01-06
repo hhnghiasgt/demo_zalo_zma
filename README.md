@@ -22,13 +22,6 @@ ZMP app created with following options:
   "customBuild": false
 }
 ```
-## Install
-
-* `npm install`
-
-## Run UI
-
-* `npx vite`
 
 ## NPM Scripts
 
