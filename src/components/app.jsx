@@ -7,7 +7,23 @@ import ArticlePage from "../pages/article";
 import SearchPage from "../pages/search";
 import MenuPage from "../pages/menu";
 
+import { useSetRecoilState } from "recoil";
+import { userState } from "../state";
+import { getZaloProfile } from "../services/zalo";
+
 const MyApp = () => {
+  const setUser = useSetRecoilState(userState);
+
+  useEffect(() => {
+    getZaloProfile()
+      .then((userInfo) => {
+        setUser(userInfo);
+      })
+      .catch((err) => {
+        console.error("Error fetching Zalo profile:", err);
+      });
+  }, []);
+
   return (
     <App>
       <SnackbarProvider>

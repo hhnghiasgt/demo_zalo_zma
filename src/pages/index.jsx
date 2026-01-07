@@ -37,6 +37,10 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    console.log("Current User State:", user);
+  }, [user]);
+
+  useEffect(() => {
     if (stories.length === 0) {
       fetchData();
     }
@@ -45,18 +49,29 @@ const HomePage = () => {
   return (
     <Page className="home-page">
       <Box m="0" px="4" mt="4">
-        <Box flex flexDirection="row" justifyContent="space-between">
+        <Box flex flexDirection="row" justifyContent="space-between" alignItems="center">
           <Box>
             {user && (
               <Text size="large" className="text-blue-dark-text">
-                Hi, {user.firstName}!
+                Hi, {user.name}!
               </Text>
             )}
             <Text size="xlarge" bold className="text-blue-dark">
               Explore today’s
             </Text>
           </Box>
-          <NotificationIcon hasNotification />
+          <Box flex flexDirection="row" alignItems="center">
+            <NotificationIcon hasNotification />
+            {user && user.avatar && (
+              <Box ml={2}>
+                <img
+                  src={user.avatar}
+                  alt="avatar"
+                  style={{ width: 40, height: 40, borderRadius: "50%", border: "2px solid #fff" }}
+                />
+              </Box>
+            )}
+          </Box>
         </Box>
       </Box>
       <Box m="0" pt="2" px="0">
