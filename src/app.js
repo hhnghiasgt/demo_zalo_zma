@@ -1,6 +1,6 @@
 // Import React and ReactDOM
 import React from "react"
-import ReactDOM from "react-dom"
+import { createRoot } from "react-dom/client"
 
 // Import ZMP
 import ZMP from "zmp-framework/core/lite-bundle"
@@ -24,8 +24,28 @@ if (!window.APP_CONFIG) {
   window.APP_CONFIG = appConfig
 }
 
-// Init ZMP React Plugin
-ZMP.use(ZMPReact)
+if (!window.__APP_INITIALIZED__) {
+  window.__APP_INITIALIZED__ = true
 
-// Mount React App
-ReactDOM.render(React.createElement(App), document.getElementById("app"))
+  const initApp = () => {
+    // Init ZMP React Plugin
+    if (ZMP && ZMP.use) {
+      ZMP.use(ZMPReact)
+    }
+
+    // Mount React App
+    const container = document.getElementById("app")
+    if (container) {
+      const root = createRoot(container)
+      root.render(React.createElement(App))
+    } else {
+      console.error("Root element #app not found")
+    }
+  }
+
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    initApp()
+  } else {
+    document.addEventListener("DOMContentLoaded", initApp)
+  }
+}

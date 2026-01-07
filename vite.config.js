@@ -1,24 +1,33 @@
 import { defineConfig } from "vite"
-import path from "path"
 import react from "@vitejs/plugin-react"
 
-// https://vitejs.dev/config/
-export default () => {
-  return defineConfig({
-    root: "./src",
-    base: "",
-    server: {
-      // host: true,
-    },
+export default defineConfig({
     plugins: [react()],
-    resolve: {
-      alias: {
-        "@components": path.resolve(__dirname, "src/components"),
-        "@pages": path.resolve(__dirname, "src/pages"),
-        "@static": path.resolve(__dirname, "src/static"),
-        "@hooks": path.resolve(__dirname, "src/hooks"),
-        "@utils": path.resolve(__dirname, "src/utils"),
-      },
+    server: {
+        host: "0.0.0.0",
+        port: 3000,
+        allowedHosts: ["unpersonifying-kenton-auriscopically.ngrok-free.dev"]
     },
-  })
-}
+    resolve: {
+        alias: {
+            "@components": "/src/components",
+            "@pages": "/src/pages",
+            "@static": "/src/static",
+            "@hooks": "/src/hooks",
+            "@utils": "/src/utils",
+        },
+        dedupe: ["zmp-core", "zmp-framework", "zmp-react", "react", "react-dom"],
+    },
+    build: {
+        outDir: "www",
+        emptyOutDir: true,
+        polyfillModulePreload: false,
+        rollupOptions: {
+            output: {
+                entryFileNames: "assets/app.js",
+                chunkFileNames: "assets/chunk.js",
+                assetFileNames: "assets/app.[ext]"
+            }
+        }
+    },
+})
