@@ -1,5 +1,5 @@
 import config from "../config"
-import store from "../store"
+
 import blogs from "../data/blogs.json"
 import categories from "../data/categories.json"
 import stories from "../data/stories.json"

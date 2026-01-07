@@ -1,17 +1,20 @@
-import React from "react"
-import { Page, Card, Box, Button, zmp } from "zmp-framework/react"
-const MenuPage = ({ zmproute }) => {
+import React from "react";
+import { Page, Button, useNavigate } from "zmp-ui";
+import Box from "@components/ui/Box";
+import Card from "@components/ui/Card";
+
+const MenuPage = () => {
+  const navigate = useNavigate();
+
   return (
     <Page className="menu-page">
-      <Card inset title="Menu">
+      <Card title="Menu">
         <Box textAlign="center">
           <Box>
             <Button
-              responsive
-              typeName="primary"
+              fullWidth
               onClick={() => {
-                zmp.tab.show("#view-main")
-                zmp.views.main.router.navigate("/blogs/")
+                navigate("/blogs");
               }}
             >
               Open Blogs
@@ -20,6 +23,7 @@ const MenuPage = ({ zmproute }) => {
         </Box>
       </Card>
     </Page>
-  )
-}
-export default MenuPage
+  );
+};
+
+export default MenuPage;

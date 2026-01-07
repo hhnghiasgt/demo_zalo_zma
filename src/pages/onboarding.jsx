@@ -1,11 +1,12 @@
-import React, { useState, useCallback } from "react"
-import { Page, Box, Row, Col } from "zmp-framework/react"
-import Image from "@components/Image"
-import Slider from "@components/IntroSlider"
-import Img1 from "@static/images/onboarding-1.png"
-import Img2 from "@static/images/onboarding-2.png"
-import Img3 from "@static/images/onboarding-3.png"
-import Img4 from "@static/images/onboarding-4.png"
+import React from "react";
+import { Page, Box } from "zmp-ui";
+import Image from "@components/Image";
+import Slider from "@components/IntroSlider";
+import Img1 from "@static/images/onboarding-1.png";
+import Img2 from "@static/images/onboarding-2.png";
+import Img3 from "@static/images/onboarding-3.png";
+import Img4 from "@static/images/onboarding-4.png";
+
 const data = [
   {
     key: "0",
@@ -31,12 +32,12 @@ const data = [
     content:
       "You can read thousands of articles on ZMP Blog, save them in the application and share them with your loved ones.",
   },
-]
+];
+
 const OnBoarding = () => {
-  const [activeIndex, setActiveIndex] = useState(0)
   return (
     <Page className="onboarding">
-      <Box p="10" mt={10} flex justifyContent="center">
+      <Box p={10} mt={10} flex justifyContent="center">
         <div className="onboarding-images-wrapper">
           <Box
             className="onboarding-images-row"
@@ -74,7 +75,7 @@ const OnBoarding = () => {
         <Slider data={data} />
       </Box>
     </Page>
-  )
-}
+  );
+};
 
-export default OnBoarding
+export default OnBoarding;

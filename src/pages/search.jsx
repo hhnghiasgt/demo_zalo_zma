@@ -1,17 +1,18 @@
-import React from "react"
-import { Page, Card, Text, Box } from "zmp-framework/react"
-import NavigationBar from "@components/NavigationBar"
-const SearchPage = ({ zmproute }) => {
+import React from "react";
+import { Page, Text } from "zmp-ui";
+import Box from "@components/ui/Box";
+import Card from "@components/ui/Card";
+
+const SearchPage = () => {
   return (
     <Page className="search-page">
-      {/* <NavigationBar active={zmproute.path} /> */}
-
-      <Card inset title="Search">
+      <Card title="Search">
         <Box textAlign="center">
-          <Text>Comming soon</Text>
+          <Text>Coming soon</Text>
         </Box>
       </Card>
     </Page>
-  )
-}
-export default SearchPage
+  );
+};
+
+export default SearchPage;

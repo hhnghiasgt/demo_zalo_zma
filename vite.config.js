@@ -16,18 +16,18 @@ export default defineConfig({
             "@hooks": "/src/hooks",
             "@utils": "/src/utils",
         },
-        dedupe: ["zmp-core", "zmp-framework", "zmp-react", "react", "react-dom"],
     },
     build: {
-        outDir: "www",
-        emptyOutDir: true,
-        polyfillModulePreload: false,
-        rollupOptions: {
-            output: {
-                entryFileNames: "assets/app.js",
-                chunkFileNames: "assets/chunk.js",
-                assetFileNames: "assets/app.[ext]"
-            }
-        }
+    target: "es2015",
+    outDir: "www",
+    emptyOutDir: true,
+    polyfillModulePreload: false,
+    rollupOptions: {
+      output: {
+        format: "iife",
+        inlineDynamicImports: true,
+        entryFileNames: "assets/app.js",
+      },
     },
+  },
 })

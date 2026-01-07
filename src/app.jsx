@@ -2,16 +2,10 @@
 import React from "react"
 import { createRoot } from "react-dom/client"
 
-// Import ZMP
-import ZMP from "zmp-framework/core/lite-bundle"
-
-// Import ZMP-React Plugin
-import ZMPReact from "zmp-framework/react"
-
 // Import ZMP Styles
-import "zmp-framework/zmp-bundle.min.css"
+import "zmp-ui/zaui.css"
 
-// Import Icons and App Custom Styles
+// Import App Custom Styles
 import "./styles/icons.css"
 import "./styles/app.scss"
 import "./styles/tailwind.css"
@@ -19,6 +13,7 @@ import "./styles/tailwind.css"
 // Import App Component
 import App from "./components/app.jsx"
 import appConfig from "../app-config.json"
+import { RecoilRoot } from "recoil"
 
 if (!window.APP_CONFIG) {
   window.APP_CONFIG = appConfig
@@ -28,16 +23,15 @@ if (!window.__APP_INITIALIZED__) {
   window.__APP_INITIALIZED__ = true
 
   const initApp = () => {
-    // Init ZMP React Plugin
-    if (ZMP && ZMP.use) {
-      ZMP.use(ZMPReact)
-    }
-
     // Mount React App
     const container = document.getElementById("app")
     if (container) {
       const root = createRoot(container)
-      root.render(React.createElement(App))
+      root.render(
+        <RecoilRoot>
+          <App />
+        </RecoilRoot>
+      )
     } else {
       console.error("Root element #app not found")
     }

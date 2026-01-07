@@ -11,13 +11,14 @@
     "hideIOSSafeAreaBottom": false
   },
   "listSyncJS": [
-    "/www/assets/app.js"
+    "/assets/app.js"
   ],
   "listCSS": [
-    "/www/assets/app.css"
+    "/assets/app.css"
   ],
   "listAsyncJS": [],
   "pages": [
+    "",
     "/blogs",
     "/article",
     "/menu",

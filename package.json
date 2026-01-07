@@ -16,8 +16,8 @@
   ],
   "scripts": {
     "start": "npm run watch:css & vite",
-    "deploy": "zmp deploy",
-    "build": "zmp build && copy app-config.json www\\app-config.json",
+    "deploy": "npm run build && zmp deploy",
+    "build": "vite build && copy app-config.json www\\app-config.json",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "watch:css": "postcss src/styles/tailwind.css -o src/styles/output.css"
@@ -30,7 +30,9 @@
     "react-dom": "^18.2.0",
     "swiper": "^7.0.5",
     "vite-plugin-babel-macros": "^1.0.5",
-    "zmp-framework": "^1.7.5",
+    "recoil": "^0.7.7",
+    "react-router-dom": "^6.20.0",
+    "zmp-ui": "^1.11.0",
     "zmp-sdk": "^2.49.4"
   },
   "devDependencies": {

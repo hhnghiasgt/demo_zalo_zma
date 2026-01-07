@@ -1,4 +1,4 @@
-import { zmp } from "zmp-framework/react";
+
 import api from "zmp-sdk";
 import config from "../config";
 
@@ -18,11 +18,13 @@ export const getAccessToken = () =>
             resolve(token);
           },
           fail: (error) => {
+            console.log('fsfdfsd');
             console.error(error);
           },
         });
       },
       fail: (error) => {
+        console.log('fsfdfsd');
         console.error(error);
       },
     });

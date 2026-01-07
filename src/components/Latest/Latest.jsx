@@ -1,29 +1,35 @@
-import React from "react"
-import Post from "@components/Post"
-import { Title, Box, Link, SkeletonText, useStore } from "zmp-framework/react"
+import React from "react";
+import { Text } from "zmp-ui";
+import Box from "@components/ui/Box";
+import { useRecoilValue } from "recoil";
+import { latestBlogsState, loadingState } from "../../state";
+import Post from "@components/Post";
+import { Link } from "react-router-dom";
 
 const Latest = () => {
-  const { data } = useStore("latestBlogs")
-  const loading = useStore("loadingBlogs")
+  const { data } = useRecoilValue(latestBlogsState);
+  const loading = useRecoilValue(loadingState).blogs;
+
   if (loading) {
     return (
-      <Box className="latest" px="10" m="0">
+      <Box className="latest" px="4" m="0">
         <Box m="0" flex flexDirection="row" justifyContent="space-between">
-          <SkeletonText effect="fade">Latest News</SkeletonText>
+          <Text>Latest News</Text>
         </Box>
         <div className="posts">
           <Post loading />
         </div>
       </Box>
-    )
+    );
   }
+
   return (
-    <Box className="latest" px="10" m="0">
+    <Box className="latest" px="4" m="0">
       <Box m="0" flex flexDirection="row" justifyContent="space-between">
-        <Title size="normal" className="font-extrabold text-blue-dark">
+        <Text bold size="large" className="text-blue-dark">
           Latest News
-        </Title>
-        <Link href="/blogs">More</Link>
+        </Text>
+        <Link to="/blogs">More</Link>
       </Box>
       <div className="posts">
         {data.slice(0, 5).map((item) => (
@@ -31,7 +37,7 @@ const Latest = () => {
         ))}
       </div>
     </Box>
-  )
-}
+  );
+};
 
-export default Latest
+export default Latest;

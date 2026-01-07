@@ -1,131 +1,48 @@
-import React, { useState, useRef, useEffect, useCallback } from "react"
-import Post from "@components/Post"
-import {
-  Title,
-  Box,
-  Page,
-  SkeletonText,
-  List,
-  ListItem,
-  Navbar,
-  NavTitle,
-  useStore,
-  zmp,
-} from "zmp-framework/react"
-import store from "../store"
-import Header from "@components/Header"
+import React, { useEffect } from "react";
+import { Page, Box, Text } from "zmp-ui";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { latestBlogsState, loadingState } from "../state";
+import { getBlogs } from "../services/blogs";
+import Post from "@components/Post";
+import Header from "@components/Header";
 
-const ListPost = ({ zmproute }) => {
-  const allowInfinite = useRef(true)
-  const vlEl = useRef(null)
-  const { data, skip = 0, limit = 10, hasMore } = useStore("latestBlogs")
-  const [vlData, setVlData] = useState({
-    items: data,
-  })
-  const loading = useStore("loadingBlogs")
-
-  let pageContent = null
+const BlogsPage = () => {
+  const [latestBlogs, setLatestBlogs] = useRecoilState(latestBlogsState);
+  const loading = useRecoilValue(loadingState).blogs;
 
   useEffect(() => {
-    if (!data.length) {
-      store.dispatch("getLatestBlogs", { skip: 0, limit: 10, showSkeleton: true })
+    if (latestBlogs.data.length === 0) {
+      const fetchData = async () => {
+        const blogsData = await getBlogs({ skip: 0, limit: 10 });
+        setLatestBlogs({
+          data: blogsData.blogs,
+          skip: 0,
+          limit: 10,
+          hasMore: blogsData.blogs.length === 10,
+        });
+      };
+      fetchData();
     }
-  }, [])
+  }, []);
 
-  useEffect(() => {
-    allowInfinite.current = hasMore
-    if (vlEl.current) {
-      const virtualList = vlEl.current.zmpVirtualList()
-      virtualList.items = [...data]
-      virtualList.update()
-    }
-  }, [data])
-
-  const renderExternal = (vl, newData) => {
-    setVlData({ ...newData })
-  }
-
-  const loadMore = () => {
-    if (!allowInfinite.current) return
-    allowInfinite.current = false
-    if (hasMore) {
-      store.dispatch("getLatestBlogs", {
-        skip: skip + limit,
-        limit,
-        showSkeleton: false,
-      })
-    }
-  }
-
-  const refreshPage = (done) => {
-    store
-      .dispatch("getLatestBlogs", {
-        skip: 0,
-        limit,
-        showSkeleton: true,
-        reset: true,
-      })
-      .finally(() => {
-        done()
-      })
-  }
-
-  if (loading) {
-    pageContent = (
-      <div className="posts">
-        <Post loading />
-        <Post loading />
-        <Post loading />
-      </div>
-    )
-  } else {
-    pageContent = (
-      <List
-        ref={vlEl}
-        noHairlines
-        className="list-post"
-        virtualList
-        noHairlinesBetween
-        virtualListParams={{
-          items: data,
-          renderExternal,
-          height: 146,
-        }}
-      >
-        <ul>
-          {vlData.items.map((item, index) => (
-            <Post
-              key={item.id}
-              virtualListIndex={data.findIndex((it) => it.id === item.id)}
-              style={{ top: `${vlData.topPosition}px` }}
-              {...item}
-              title={`${item.id}, ${item.title}`}
-              vlTopPosition={vlData.topPosition}
-              vtitle={`${item.id}, ${item.title}`}
-            />
-          ))}
-        </ul>
-      </List>
-    )
-  }
   return (
-    <Page
-      ptr
-      onPtrRefresh={refreshPage}
-      onPageBeforeIn={() => {
-        zmp.toolbar.hide("#main-nav", false)
-      }}
-      infinite
-      infiniteDistance={50}
-      infinitePreloader={!loading && hasMore}
-      onInfinite={loadMore}
-    >
-      <Header back>Latest News</Header>
-      <Box className="list-post" px="10" pb="10" pt={0} m="0">
-        {pageContent}
+    <Page className="blogs-page">
+      <Header back title="Latest News" />
+      <Box p={4}>
+        {loading && latestBlogs.data.length === 0 ? (
+          <Box flex justifyContent="center" alignItems="center" pt={10}>
+            <Text>Loading...</Text>
+          </Box>
+        ) : (
+          <div className="posts">
+            {latestBlogs.data.map((item) => (
+              <Post {...item} key={item.id} />
+            ))}
+          </div>
+        )}
       </Box>
     </Page>
-  )
-}
+  );
+};
 
-export default ListPost
+export default BlogsPage;

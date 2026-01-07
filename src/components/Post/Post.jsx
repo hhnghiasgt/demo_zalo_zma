@@ -1,20 +1,17 @@
-import React from "react"
-import {
-  Card,
-  Link,
-  Box,
-  Text,
-  Title,
-  SkeletonBlock,
-  SkeletonText,
-} from "zmp-framework/react"
-import { Like, Time, Bookmark } from "@components/Icons"
-import { shortenLargeNumber } from "@utils/number"
-import moment from "moment"
+import React from "react";
+import { useNavigate } from "zmp-ui";
+import { Text } from "zmp-ui";
+
+import Card from "@components/ui/Card";
+import Box from "@components/ui/Box";
+
+import { Like, Time, Bookmark } from "@components/Icons";
+import { shortenLargeNumber } from "@utils/number";
+import moment from "moment";
+
 const Post = ({
   loading,
   title,
-  id,
   description,
   thumbnail,
   createdAt,
@@ -23,78 +20,85 @@ const Post = ({
   saved,
   style,
 }) => {
-  const handleLike = () => {}
+  const navigate = useNavigate();
 
-  const handleSave = () => {}
+  const handleLike = (e) => {
+    e.stopPropagation();
+  };
+
+  const handleSave = (e) => {
+    e.stopPropagation();
+  };
 
   if (loading) {
     return (
-      <Box style={style} mx="0" my="3" className="post">
-        <Card inset className="overflow-hidden shadow-3	p-0">
-          <Link noLinkClass>
-            <Box m="0" flex flexDirection="row" alignItems="stretch">
-              <div className="post-thumbnail overflow-hidden">
-                <SkeletonBlock width={92} height={120} effect="fade" />
-              </div>
-              <Box
-                m="0"
-                py="5"
-                mx="5"
-                flex
-                flexDirection="column"
-                className="flex-1"
-              >
-                <SkeletonText effect="fade">Lorem ipsum </SkeletonText>
-                <SkeletonText effect="fade">
-                  Lorem ipsum dolor sit amet consectetur
-                </SkeletonText>
-              </Box>
-            </Box>
-          </Link>
+      <Box className="post my-3" style={style}>
+        <Card className="p-3">
+          <div className="flex">
+            <div
+              className="bg-gray-200"
+              style={{ width: 92, height: 120 }}
+            />
+            <div className="flex-1 ml-3">
+              <div className="bg-gray-200 h-5 w-4/5 mb-2" />
+              <div className="bg-gray-200 h-10 w-full" />
+            </div>
+          </div>
         </Card>
       </Box>
-    )
+    );
   }
+
   return (
-    <Box style={style} mx="0" my="3" className="post">
-      <Card inset className="overflow-hidden shadow-3	p-0">
-        <Link noLinkClass href="/detail/">
-          <Box m="0" flex flexDirection="row" alignItems="stretch">
-            <div className="post-thumbnail overflow-hidden">
-              <img src={thumbnail} alt={title} />
+    <Box
+      className="post my-3"
+      style={style}
+      onClick={() => navigate("/detail")}
+    >
+      <Card inset>
+        <div className="flex">
+          <div
+            className="overflow-hidden"
+            style={{ width: 92, height: 120 }}
+          >
+            <img
+              src={thumbnail}
+              alt={title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          <div className="flex-1 p-3 flex flex-col">
+            <Text className="font-bold text-blue mb-1">
+              {title}
+            </Text>
+
+            <Text className="text-sm text-blue-dark line-clamp-2">
+              {description}
+            </Text>
+
+            <div className="mt-auto flex justify-end items-center gap-3">
+              <div className="flex items-center">
+                <Like onClick={handleLike} liked={liked} />
+                <Text className="text-xs ml-1">
+                  {shortenLargeNumber(like, 1)}
+                </Text>
+              </div>
+
+              <div className="flex items-center">
+                <Time />
+                <Text className="text-xs ml-1">
+                  {moment(createdAt).fromNow()}
+                </Text>
+              </div>
+
+              <Bookmark onClick={handleSave} saved={saved} />
             </div>
-            <Box m="0" py="5" mx="5" flex flexDirection="column" className="flex-1">
-              <Title className="post-title text-blue font-extrabold">{title}</Title>
-              <Text
-                size="small"
-                bold
-                className="desc text-blue-dark overflow-ellipsis"
-              >
-                {description}
-              </Text>
-              <Box m="0" flex flexDirection="row" justifyContent="flex-end">
-                <Box m="0" flex flexDirection="row" alignItems="center">
-                  <Like onClick={handleLike} liked={liked} />
-                  <Text className="like text-blue-dark">
-                    {shortenLargeNumber(like, 1)}
-                  </Text>
-                </Box>
-                <Box m="0" ml="2" flex flexDirection="row" alignItems="center">
-                  <Time />
-                  <Text className="time text-blue-dark">
-                    {moment(createdAt).fromNow()}
-                  </Text>
-                </Box>
-                <Box m="0" ml="2">
-                  <Bookmark onClick={handleSave} saved={saved} />
-                </Box>
-              </Box>
-            </Box>
-          </Box>
-        </Link>
+          </div>
+        </div>
       </Card>
     </Box>
-  )
-}
+  );
+};
 
-export default Post
+export default Post;
